@@ -1,14 +1,16 @@
 import express from 'express'
+import { connectDB } from "./config/database.js";
+const app = express()
 
-const app=express()
-
-
-app.use("/test",(req,res)=>{
-    res.send("hello.....")
+connectDB().then(() => {
+    console.log('db connected successfully');
+    app.listen(port, () => {
+        console.log('successfully');
+    })
+}).catch(err => {
+    console.log('db not connected');
 })
 
-const port=3000;
+const port = 3000;
 
-app.listen(port,()=>{
-    console.log('successfully');
-})
+
