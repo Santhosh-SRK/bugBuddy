@@ -4,16 +4,16 @@ import User from './models/user.js';
 const app = express()
 
  app.post('/signup', async (req,res)=>{
-  const userOBJ={
-    firstName:"Santhu",
-    lastName:"R",
-    emailId:'san@gmail.com',
+  const user=new User({
+    firstName:"Santhosh",
+    lastName:"Ramachandra",
+    emailId:'santhu@gmail.com',
     password:"san123"
-  }
+  })
   
-  const newUser = new User(userOBJ);   
-  await newUser.save();
- res.send("successfully")
+//   const newUser = new User(userOBJ);   
+  await user.save();
+ res.send("successfully created......")
 })
 
 
