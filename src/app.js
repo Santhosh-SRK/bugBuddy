@@ -76,7 +76,9 @@ app.patch('/user',async (req,res)=>{
         const data=req.body
 
 try{
-    const user= await Login.findByIdAndUpdate({_id:userId},data)
+    const user= await Login.findByIdAndUpdate({_id:userId},data,{
+        runValidators:true,
+    })
     res.send('sent successfully')
 }catch(err){
     res.status(400).send("something went wrong while updating",+err.message)

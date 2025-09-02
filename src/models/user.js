@@ -22,7 +22,12 @@ const loginSchema = new mongoose.Schema({
         type:Number
     },
     gender:{
-        type:String
+        type:String,
+        validate(value){
+            if(!['male','female','others'].includes(value)){
+                throw new Error("gender data is not valid")
+            }
+        }
     },
     About:{
         type:String,
