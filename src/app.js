@@ -70,6 +70,18 @@ app.delete('/user', async (req,res)=>{
     res.status(400).send("something went wrong delete not success"+err.message)
    }
 })
+
+app.patch('/user',async (req,res)=>{
+        const userId=req.body.userId
+        const data=req.body
+
+try{
+    const user= await Login.findByIdAndUpdate({_id:userId},data)
+    res.send('sent successfully')
+}catch(err){
+    res.status(400).send("something went wrong while updating",+err.message)
+}
+})
 connectDB().then(() => {
     console.log('db connected successfully');
     const port = 3000;
