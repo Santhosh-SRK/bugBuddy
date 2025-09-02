@@ -11,15 +11,22 @@ const loginSchema = new mongoose.Schema({
     emailId:{
         type:String,
         unique:true,
+        lowercase:true,
+        trim:true
     },
     password:{
-        type:String
+        type:String,
+        minLength:8
     },
     age:{
         type:Number
     },
     gender:{
         type:String
+    },
+    About:{
+        type:String,
+        default:"welcome to API"
     }
 })
 
