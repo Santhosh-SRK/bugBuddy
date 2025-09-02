@@ -32,7 +32,12 @@ const loginSchema = new mongoose.Schema({
     About:{
         type:String,
         default:"welcome to API"
+    },
+    skills:{
+        type:[String],
     }
+},{
+    timestamps:true
 })
 
 const Login =mongoose.model("login",loginSchema)
