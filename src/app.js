@@ -1,24 +1,34 @@
 import express from 'express'
 import { connectDB } from "./config/database.js";
 import Login from './models/user.js';
+import validateSignUpData from './Utils/validation.js';
+import bycrypt from "bcrypt"
 const app = express()
 
 app.use(express.json())
 
 app.post('/signup', async (req, res) => {
-    console.log(req.body);
-    const login = new Login(
-        // {
-        //     firstName: "Santhosh11",
-        //     lastName: "Ramachandra111",
-        //     emailId: 'santhu@gmail.com',
-        //     password: "san123"
-        // }
-        req.body
-    )
+
 
     //   const newUser = new User(userOBJ);   
     try {
+        //validationof data
+        validateSignUpData(req)
+        //encrypt the password
+        const {password,firstName,lastName,emailId}=req.body;
+const passwordHash= await bycrypt.hash(password,10)
+console.log(passwordHash);
+        //
+        console.log(req.body);
+        const login = new Login(
+            {
+                firstName,
+                lastName,
+                emailId,
+                password: passwordHash
+            }
+            // req.body
+        )
         await login.save();
         res.send("successfully created......")
     } catch (err) {
@@ -77,7 +87,7 @@ app.patch('/user/:userId', async (req, res) => {
 
     try {
         const ALLOWED_UPDATES = [
-            "photoUrl", "about", "gender", "age","skills"
+            "photoUrl", "about", "gender", "age", "skills"
         ]
         const isUpdateAllowed = Object.keys(data).every((k) =>
             ALLOWED_UPDATES.includes(k)
@@ -85,7 +95,7 @@ app.patch('/user/:userId', async (req, res) => {
         if (!isUpdateAllowed) {
             throw new Error("update not allowed")
         }
-        if(data?.skills.length>10){
+        if (data?.skills.length > 10) {
             throw new Error("skills ccannot be more than 10")
         }
         const user = await Login.findByIdAndUpdate({ _id: userId }, data, {
